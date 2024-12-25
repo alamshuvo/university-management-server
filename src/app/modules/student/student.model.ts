@@ -53,6 +53,11 @@ const localGurdienSchema = new Schema<LocalGuardian>({
 });
 const studentSchema = new Schema<Student>({
   id: { type: String },
+  user:{type:Schema.Types.ObjectId,
+    required:[true,"user id must be added"],
+    unique:true,
+    ref:'User'
+  },
   name: userNameSchema,
   gender: ['male', 'female'],
   dateOfBirth: { type: String },
