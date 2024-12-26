@@ -53,13 +53,21 @@ const localGurdienSchema = new Schema<LocalGuardian>({
 });
 const studentSchema = new Schema<Student>({
   id: { type: String },
-  user:{type:Schema.Types.ObjectId,
-    required:[true,"user id must be added"],
-    unique:true,
-    ref:'User'
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true, 'user id must be added'],
+    unique: true,
+    ref: 'User',
   },
-  name: userNameSchema,
-  gender: ['male', 'female'],
+  name: {
+    type: userNameSchema,
+    required: true,
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+    requred: true,
+  },
   dateOfBirth: { type: String },
   email: { type: String, required: true },
   contactNo: { type: String, required: true },
@@ -70,7 +78,6 @@ const studentSchema = new Schema<Student>({
   gurdien: gurdienSchema,
   localGurdien: localGurdienSchema,
   profileImage: { type: String },
-  isActive: ['active', 'blocked'],
 });
 
 export const StudentModel = model<Student>('Student', studentSchema);

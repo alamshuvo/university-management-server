@@ -20,7 +20,7 @@ export type LocalGuardian = {
 };
 export type Student = {
   id: string;
-  user:Types.ObjectId;
+  user: Types.ObjectId;
   name: UserName;
   gender: 'male' | 'female';
   dateOfBirth?: string;
@@ -33,5 +33,4 @@ export type Student = {
   gurdien: Gurdien;
   localGurdien: LocalGuardian;
   profileImage?: string;
-  isActive: 'active' | 'blocked';
 };

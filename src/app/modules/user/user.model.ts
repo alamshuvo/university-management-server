@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 import { TUser } from './user.interface';
-import { boolean } from 'zod';
-
+import bcrypt from 'bcrypt';
+import config from '../../config';
 const userSchema = new Schema<TUser>({
   id: {
     type: String,
@@ -28,6 +28,17 @@ const userSchema = new Schema<TUser>({
     type: Boolean,
     default: false,
   },
+});
+
+userSchema.pre('save', async function (next) {
+  const user = this;
+  user.password = await bcrypt.hash(user.password, Number(config.salt_round));
+  next();
+});
+
+userSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
 });
 
 export const userModel = model<TUser>('user', userSchema);
