@@ -21,7 +21,7 @@ export type TUser = {
 };
 
 export type TNewUser = {
-  role: string;
+  role:[ 'student'|'admin'|'faculty'];
   password: string;
   id:string
 };

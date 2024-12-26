@@ -1,7 +1,8 @@
-import { userService } from './user.serivces';
 
-const createStudent = async (req: Request, res: Response) => {
-  try {
+import { userService } from './user.serivces';
+import { catchAsync } from '../../../utils/catchAsync';
+
+const createStudent = catchAsync(async (req, res) => {
     //send response
     const { password, student: studentData } = req.body;
     //will call service function to send this data
@@ -11,10 +12,8 @@ const createStudent = async (req: Request, res: Response) => {
       message: 'Student is Created Sucessfully',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
   }
-};
+)
 
 export const UserControllers = {
   createStudent,
