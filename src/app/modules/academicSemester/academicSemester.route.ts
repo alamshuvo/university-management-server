@@ -5,5 +5,8 @@ import { AcademicsemesterValidation } from "./academicSemester.validation";
 
 const router =Router()
 router.post("/create-academic-semester",validateRequest(AcademicsemesterValidation.createAcademicSemestarValidationSchema),academicSemesterController.createAcademicSemester)
+router.get("/",academicSemesterController.getAcademicSemester)
+router.get("/:id",academicSemesterController.getSingleAcademicSemester)
+router.patch("/:id",academicSemesterController.updateSingleAcademicSemester)
 
 export const AcedemicSemesterRoutes = router
