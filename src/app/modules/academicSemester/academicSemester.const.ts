@@ -16,3 +16,11 @@ export const academicSemesterName:TAcademicSemesterName[] =["Autumn","Summar","F
     "November",
     "December",
   ];
+
+  export const academicSemesterNameCodeMapper:{
+    [key:string]:string;
+     } = {
+        Autumn:"01",
+        Summar:"02",
+        Fall:"03"
+     }

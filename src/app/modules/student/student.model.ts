@@ -78,6 +78,7 @@ const studentSchema = new Schema<Student>({
   gurdien: gurdienSchema,
   localGurdien: localGurdienSchema,
   profileImage: { type: String },
+  admissionSemester:{type:Schema.Types.ObjectId,ref:"AcademicSemester"}
 });
 
 export const StudentModel = model<Student>('Student', studentSchema);

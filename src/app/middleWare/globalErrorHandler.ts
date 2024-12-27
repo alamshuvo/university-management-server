@@ -6,7 +6,7 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  return res.status(500).json({
+  res.status(500).json({
     success: false,
     message: err.message,
     error: err,
