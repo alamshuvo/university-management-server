@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+
 const userNameValidationSchema = z.object({
   firstName: z
     .string()
@@ -44,11 +45,11 @@ export const createStudentValidationSchema = z.object({
       guardian: guardianValidationSchema,
       localGuardian: localGuardianValidationSchema,
       admissionSemester: z.string(),
+      academicDepertment:z.string(),
       profileImg: z.string(),
     }),
   }),
 });
-
 
 export const studentValidations = {
   createStudentValidationSchema,

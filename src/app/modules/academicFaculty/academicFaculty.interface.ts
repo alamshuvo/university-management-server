@@ -1,4 +1,3 @@
-
 export type TAcademicFaculty = {
-    name:String
-}
+  name: String;
+};

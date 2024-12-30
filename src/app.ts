@@ -16,12 +16,10 @@ app.get('/', (_req: Request, res: Response) => {
   res.send(a);
 });
 
-
-
 app.use(globalErrorHandler);
 //not found route
 app.use(notFoundRoute);
 
-console.log(process.cwd())
+console.log(process.cwd());
 
 export default app;
