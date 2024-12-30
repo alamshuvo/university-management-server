@@ -11,7 +11,8 @@ import { StatusCodes } from 'http-status-codes';
 
 const createStudentIntoDB = async (password: string, studentData: Student) => {
   const userData: Partial<TUser> = {};
-
+  console.log(studentData);
+  
   userData.password = password || (config.default_password as string);
   userData.role = 'student';
 
@@ -45,7 +46,7 @@ const createStudentIntoDB = async (password: string, studentData: Student) => {
     const newStudent = await StudentModel.create([studentData], { session });
 
     if (!newStudent.length) {
-      throw new AppError(StatusCodes.BAD_REQUEST, 'failed to create student');
+      throw new AppError(StatusCodes.BAD_REQUEST, 'failed to create student if block');
     }
 
     await session.commitTransaction();
@@ -55,7 +56,7 @@ const createStudentIntoDB = async (password: string, studentData: Student) => {
   } catch (error) {
     await session.abortTransaction();
     await session.endSession();
-    throw new Error('Failed to create student');
+    throw new Error('Failed to create student rollback');
   }
 };
 

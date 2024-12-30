@@ -32,3 +32,5 @@
 1. using req.params insted of req.queary
    3.Unhandled Rejection (async code )
    4.uncaught Exception (synchronous code )
+
+# what is method chaining

@@ -6,6 +6,8 @@ import { StatusCodes } from 'http-status-codes';
 const createStudent = catchAsync(async (req, res) => {
   //send response
   const { password, student: studentData } = req.body;
+  
+  
   //will call service function to send this data
   const result = await userService.createStudentIntoDB(password, studentData);
   sendResponse(res, {
