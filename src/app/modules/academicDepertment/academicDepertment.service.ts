@@ -1,7 +1,6 @@
 import TAcademicDepertment from './academicDepertment.interface';
 import { AcademicDepertment } from './academicDepertment.model';
 
-
 const createAcademicDepertmentIntoDb = async (payload: TAcademicDepertment) => {
   //   const isDepertmentExist = await academicDepertment.findOne({
   //     name: payload.name,
@@ -18,9 +17,8 @@ const getAllAcademicDepertmentFromDb = async () => {
   return result;
 };
 const getSingleAcademicDepertmentFromDb = async (id: string) => {
-  const result = await AcademicDepertment
-    .findById(id)
-    .populate('academicFaculties');
+  const result =
+    await AcademicDepertment.findById(id).populate('academicFaculties');
   return result;
 };
 
