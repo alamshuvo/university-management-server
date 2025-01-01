@@ -62,18 +62,28 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
   //   fields = (query.fields as string).split(',').join(' ');
   // }
   // const selectQueary = await limitQuary.select(fields);
-  const studentQuery = new QueryBuilder(StudentModel.find().populate('admissionSemester')
-    .populate({
-     path: 'academicDepertment',
-      populate: {
-        path: 'academicFaculties',
-      }}), query).search(studentSearchAbleFields).filter().sort().paginate().fields();
-  const result = await studentQuery.modelQuery
-  return result
+  const studentQuery = new QueryBuilder(
+    StudentModel.find()
+      .populate('admissionSemester')
+      .populate({
+        path: 'academicDepertment',
+        populate: {
+          path: 'academicFaculties',
+        },
+      }),
+    query,
+  )
+    .search(studentSearchAbleFields)
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const result = await studentQuery.modelQuery;
+  return result;
 };
 
 const getSingleStudentsFromDB = async (id: string) => {
-  const result = await StudentModel.findById(id )
+  const result = await StudentModel.findById(id)
     .populate('admissionSemester')
     .populate({
       path: 'academicDepertment',
@@ -89,7 +99,7 @@ const deleteSingleStudentsFromDb = async (id: string) => {
   try {
     session.startTransaction();
     const result = await StudentModel.findByIdAndUpdate(
-      id ,
+      id,
       { isDeleted: true },
       {
         new: true,
@@ -100,7 +110,7 @@ const deleteSingleStudentsFromDb = async (id: string) => {
       throw new AppError(StatusCodes.BAD_REQUEST, 'faild to delete student');
     }
 
-  const userId = result.user;
+    const userId = result.user;
 
     const deletedUser = await userModel.findByIdAndUpdate(
       userId,
@@ -147,11 +157,10 @@ const updateStudentFromDb = async (id: string, payload: Partial<Student>) => {
       modifiedUpdatedData[`localGurdien.${key}`] = value;
     }
   }
-  const result = await StudentModel.findByIdAndUpdate(
-     id ,
-    modifiedUpdatedData,
-    { new: true, runValidators: true },
-  );
+  const result = await StudentModel.findByIdAndUpdate(id, modifiedUpdatedData, {
+    new: true,
+    runValidators: true,
+  });
   return result;
 };
 export const StudentServices = {

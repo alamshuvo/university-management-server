@@ -31,13 +31,13 @@ const modulRoutes = [
     route: academicDepertmentRoute,
   },
   {
-    path:"/faculty",
-    route:FacultyRoutes
+    path: '/faculty',
+    route: FacultyRoutes,
   },
   {
-    path:"/courses",
-    route:courseRoute
-  }
+    path: '/courses',
+    route: courseRoute,
+  },
 ];
 modulRoutes.forEach((route) => router.use(route.path, route.route));
 

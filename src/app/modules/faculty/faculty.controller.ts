@@ -1,9 +1,7 @@
-import { StatusCodes } from "http-status-codes";
-import { catchAsync } from "../../../utils/catchAsync";
-import sendResponse from "../../../utils/sendResponse";
-import { FacultyServices } from "./faculty.services";
-
-
+import { StatusCodes } from 'http-status-codes';
+import { catchAsync } from '../../../utils/catchAsync';
+import sendResponse from '../../../utils/sendResponse';
+import { FacultyServices } from './faculty.services';
 
 const getSingleFaculty = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -18,11 +16,10 @@ const getSingleFaculty = catchAsync(async (req, res) => {
 });
 
 const getAllFaculties = catchAsync(async (req, res) => {
-
   const result = await FacultyServices.getAllFacultieFromDb(req.query);
 
   sendResponse(res, {
-    statusCode:StatusCodes.OK,
+    statusCode: StatusCodes.OK,
     sucess: true,
     message: 'Faculties are retrieved succesfully',
     data: result,
@@ -35,7 +32,7 @@ const updateFaculty = catchAsync(async (req, res) => {
   const result = await FacultyServices.updateFacultyIntoDb(id, faculty);
 
   sendResponse(res, {
-    statusCode:StatusCodes.OK,
+    statusCode: StatusCodes.OK,
     sucess: true,
     message: 'Faculty is updated succesfully',
     data: result,
