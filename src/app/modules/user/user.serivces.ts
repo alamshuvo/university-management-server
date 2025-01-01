@@ -8,6 +8,8 @@ import { userModel } from './user.model';
 import { generateStudentId } from './user.utils';
 import AppError from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
+import { AcademicDepertment } from '../academicDepertment/academicDepertment.model';
+import { STATUS_CODES } from 'http';
 
 const createStudentIntoDB = async (password: string, studentData: Student) => {
   const userData: Partial<TUser> = {};
@@ -60,6 +62,29 @@ const createStudentIntoDB = async (password: string, studentData: Student) => {
   }
 };
 
+
+const createFacultyIntoDb = async (password:String, payload)=>{
+  const userData: Partial<TUser> = {};
+  //password is not given use default password
+
+  userData.password = password || (config.default_password as string);
+  //set role
+  userData.role = 'faculty';
+  //find academic depertment info 
+  const academicDepertment = await AcademicDepertment.findById(payload.academicDepertment)
+  if (!academicDepertment) {
+    throw new AppError(StatusCodes.NOT_FOUND,"Academic Depertment not found ")
+  };
+  const session =await mongoose.startSession();
+  try {
+    session.startTransaction();
+    
+  } catch (error) {
+    
+  }
+}
+
 export const userService = {
   createStudentIntoDB,
+  createFacultyIntoDb
 };
