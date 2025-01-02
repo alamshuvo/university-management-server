@@ -35,25 +35,21 @@ const updateCourseValidation = z.object({
   }),
 });
 
-
 const assignFacultiesValidation = z.object({
-    body: z.object({
-        faculties:z.array(z.string())
-    })
-    
-})
-
+  body: z.object({
+    faculties: z.array(z.string()),
+  }),
+});
 
 const FacultieswithCourseValidation = z.object({
-    body: z.object({
-        faculties:z.array(z.string())
-    })
-    
-})
+  body: z.object({
+    faculties: z.array(z.string()),
+  }),
+});
 //const updateCourseValidation = createCourseValidaion.partial()
 export const courseValidation = {
   createCourseValidaion,
   updateCourseValidation,
   assignFacultiesValidation,
-  FacultieswithCourseValidation
+  FacultieswithCourseValidation,
 };

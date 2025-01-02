@@ -13,8 +13,7 @@ export type TCourse = {
   isDeleted: boolean;
 };
 
-
 export type TCourseFaculty = {
-    course:Types.ObjectId;
-    faculties:[Types.ObjectId];
-}
+  course: Types.ObjectId;
+  faculties: [Types.ObjectId];
+};

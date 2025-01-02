@@ -17,10 +17,17 @@ router.patch(
   validateRequest(courseValidation.updateCourseValidation),
   courseController.updateCourse,
 );
-router.put("/:courseId/assign-faculties",validateRequest(courseValidation.assignFacultiesValidation),courseController.assignFaculties)
+router.put(
+  '/:courseId/assign-faculties',
+  validateRequest(courseValidation.assignFacultiesValidation),
+  courseController.assignFaculties,
+);
 
-router.delete("/:courseId/remove-faculties",validateRequest(courseValidation.FacultieswithCourseValidation),courseController.removeFaculties)
-
+router.delete(
+  '/:courseId/remove-faculties',
+  validateRequest(courseValidation.FacultieswithCourseValidation),
+  courseController.removeFaculties,
+);
 
 router.delete('/:id', courseController.deleteSingleCourses);
 
