@@ -1,4 +1,6 @@
-export type TUser = {
+import { Model } from 'mongoose';
+
+export interface TUser {
   id: string;
   password: string;
   needsPasswordChange: {
@@ -18,7 +20,16 @@ export type TUser = {
     enum: ['in-progress' | 'blocked'];
     default: 'in-progress';
   };
-};
+}
+
+export interface UserModel extends Model<TUser> {
+  isUserExistsByCustomId(id: string): Promise<TUser>;
+  isPasswordMatched(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean>;
+  //isDeleted(isDeleted:'false'|'true'):Promise<TUser>
+}
 
 export type TNewUser = {
   role: ['student' | 'admin' | 'faculty'];
