@@ -11,10 +11,15 @@ const userSchema = new Schema<TUser, UserModel>({
   password: {
     type: String,
     required: true,
+    select:0
   },
   needsPasswordChange: {
     type: Boolean,
     default: true,
+    
+  },
+  passwordChangeAt:{
+ type:Date,
   },
   role: {
     type: String,
@@ -43,7 +48,11 @@ userSchema.post('save', function (doc, next) {
 });
 
 userSchema.statics.isUserExistsByCustomId = async function (id: string) {
-  await userModel.findOne({ id });
+  
+  
+return await userModel.findOne({ id }).select('+password');
+
+ 
 };
 // userSchema.statics.isUserDeleted = async function()
 userSchema.statics.isDeleted = async function (isDeleted) {
@@ -56,5 +65,11 @@ userSchema.statics.isPasswordMatched = async function (
 ) {
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
+
+userSchema.statics.isJWTIssuedBeforePasswordChange = function(passwordChagedTimestap:Date,jwtissuedTimeStap:number){
+  const passwrodChangedTime = new Date(passwordChagedTimestap).getTime()/1000
+  return passwrodChangedTime>jwtissuedTimeStap
+}
+
 
 export const userModel = model<TUser, UserModel>('user', userSchema);
