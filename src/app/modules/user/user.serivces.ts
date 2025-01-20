@@ -9,7 +9,6 @@ import { generateFacultyId, generateStudentId } from './user.utils';
 import AppError from '../../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
 import { AcademicDepertment } from '../academicDepertment/academicDepertment.model';
-import { STATUS_CODES } from 'http';
 import { TFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
 
