@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-
 import { catchAsync } from '../../utils/catchAsync';
 import AppError from '../errors/AppError';
 import { StatusCodes } from 'http-status-codes';
