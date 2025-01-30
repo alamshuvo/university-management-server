@@ -3,10 +3,11 @@ import { academicSemesterController } from './academicSemester.controller';
 import validateRequest from '../../middleWare/validateRequest';
 import { AcademicsemesterValidation } from './academicSemester.validation';
 import auth from '../../middleWare/auth';
+import { USER_ROLE } from '../user/user.const';
 
 const router = Router();
 router.post(
-  '/create-academic-semester',
+  '/create-academic-semesters',auth(USER_ROLE.admin),
   validateRequest(
     AcademicsemesterValidation.createAcademicSemestarValidationSchema,
   ),
