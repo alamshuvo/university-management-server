@@ -188,19 +188,68 @@ const forgetPassword = async (id: string) => {
   if (userStatus === 'blocked') {
     throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
   }
- const jwtPayload = {
-  userId : user.id,
-  role:user.role
- }
- const resetToken = createToken(jwtPayload,config.jwt_acess_secret as string, "10m")
+  const jwtPayload = {
+    userId: user.id,
+    role: user.role,
+  };
+  const resetToken = createToken(
+    jwtPayload,
+    config.jwt_acess_secret as string,
+    '10m',
+  );
+
+  const resetUiLink = `${config.reset_password_ui_link}?id=${user.id}&token=${resetToken}`;
+  sendEmail(user?.email, resetUiLink);
+};
+
+const resetPassword = async (
+  payload: { id: string; newPassword: string },
+  token: string,
+) => {
+  const user = await userModel.isUserExistsByCustomId(payload.id);
+  if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'This user is not found !');
+  }
+  const isDeleted = user?.isDeleted;
+  if (isDeleted) {
+    throw new AppError(StatusCodes.FORBIDDEN, 'This user is deleted !');
+  }
+  const userStatus = user?.status.type;
+  if (userStatus === 'blocked') {
+    throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
+  }
+
+  const decoded = Jwt.verify(
+    token,
+    config.jwt_acess_secret as string,
+  ) as JwtPayload;
+
+  console.log(decoded);
+  if (payload.id !== decoded.userId ) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'You are not authorized !');
+  }
+  const hashedNewPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.salt_round),
+  )
+  await userModel.findOneAndUpdate(
+    {
+      id: decoded.userId,
+      role: decoded.role,
+    },
+    {
+      password: hashedNewPassword,
+      needsPasswordChange: false,
+      passwordChangeAt: new Date(),
+    }
+  )
 
 
-  const resetUiLink = `http://localhost:5001?id=${user.id}&token=${resetToken}`;
-  sendEmail(resetToken)
 };
 export const AuthService = {
   loginUser,
   changePassword,
   refreshToken,
   forgetPassword,
+  resetPassword,
 };
