@@ -18,6 +18,7 @@ const createStudentIntoDB = async (password: string, studentData: Student) => {
 
   userData.password = password || (config.default_password as string);
   userData.role = 'student';
+  userData.email = studentData.email;
 
   // find academic semester info
   const admisionSemester = await academicSemesterModel.findById(
@@ -73,6 +74,7 @@ const createFacultyIntoDb = async (password: string, payload: TFaculty) => {
   userData.password = password || (config.default_password as string);
   //set role
   userData.role = 'faculty';
+  userData.email = payload.email;
   //find academic depertment info
   const academicDepertment = await AcademicDepertment.findById(
     payload.academicDepartment,
