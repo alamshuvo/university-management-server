@@ -116,8 +116,14 @@ const getMe = async(token:string)=>{
   const decoded = verifyToken(token, config.jwt_acess_secret as string) as JwtPayload
 
 const {userId,role}= decoded;
-console.log(userId,role);
-const result = {}
+let result = null
+if (role === 'student') {
+  result = await StudentModel.findOne({id:userId})
+}
+if (role === 'faculty') {
+  result = await Faculty.findOne({id:userId})
+  
+}
 return result
 }
 
