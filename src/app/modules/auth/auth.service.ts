@@ -5,7 +5,7 @@ import { TLoginUSer } from './auth.interface';
 import bcrypt from 'bcrypt';
 import Jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
-import { createToken } from './auth.utils';
+import { createToken, verifyToken } from './auth.utils';
 import { sendEmail } from '../../../utils/sendEmail';
 
 const loginUser = async (payload: TLoginUSer) => {
@@ -122,11 +122,7 @@ const changePassword = async (
 const refreshToken = async (token: string) => {
   // checking if the given token is valid
 
-  const decoded = Jwt.verify(
-    token,
-    config.jwt_refresh_secret as string,
-  ) as JwtPayload;
-
+  const decoded = verifyToken(token, config.jwt_refresh_secret as string) as JwtPayload;
   const { userId, iat } = decoded;
 
   // checking if the user is exist
@@ -145,7 +141,7 @@ const refreshToken = async (token: string) => {
   // checking if the user is blocked
   const userStatus = user?.status?.type;
 
-  if (userStatus?.type === 'blocked') {
+  if (userStatus === 'blocked') {
     throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
   }
 
@@ -219,10 +215,7 @@ const resetPassword = async (
     throw new AppError(StatusCodes.FORBIDDEN, 'This user is blocked ! !');
   }
 
-  const decoded = Jwt.verify(
-    token,
-    config.jwt_acess_secret as string,
-  ) as JwtPayload;
+  const decoded = verifyToken(token, config.jwt_acess_secret as string) as JwtPayload;
 
   console.log(decoded);
   if (payload.id !== decoded.userId ) {

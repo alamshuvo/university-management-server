@@ -11,6 +11,8 @@ import { StatusCodes } from 'http-status-codes';
 import { AcademicDepertment } from '../academicDepertment/academicDepertment.model';
 import { TFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
+import { verifyToken } from '../auth/auth.utils';
+import { JwtPayload } from 'jsonwebtoken';
 
 const createStudentIntoDB = async (password: string, studentData: Student) => {
   const userData: Partial<TUser> = {};
@@ -110,8 +112,17 @@ const createFacultyIntoDb = async (password: string, payload: TFaculty) => {
     throw new Error((error as Error).message);
   }
 };
+const getMe = async(token:string)=>{
+  const decoded = verifyToken(token, config.jwt_acess_secret as string) as JwtPayload
+
+const {userId,role}= decoded;
+console.log(userId,role);
+const result = {}
+return result
+}
 
 export const userService = {
   createStudentIntoDB,
   createFacultyIntoDb,
+  getMe
 };
