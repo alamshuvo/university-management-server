@@ -11,8 +11,8 @@ import { StatusCodes } from 'http-status-codes';
 import { AcademicDepertment } from '../academicDepertment/academicDepertment.model';
 import { TFaculty } from '../faculty/faculty.interface';
 import { Faculty } from '../faculty/faculty.model';
-import { verifyToken } from '../auth/auth.utils';
 import { JwtPayload } from 'jsonwebtoken';
+
 
 const createStudentIntoDB = async (password: string, studentData: Student) => {
   const userData: Partial<TUser> = {};
@@ -112,12 +112,12 @@ const createFacultyIntoDb = async (password: string, payload: TFaculty) => {
     throw new Error((error as Error).message);
   }
 };
-const getMe = async(token:string)=>{
-  const decoded = verifyToken(token, config.jwt_acess_secret as string) as JwtPayload
+const getMe = async(payload:JwtPayload)=>{
+  // const decoded = verifyToken(token, config.jwt_acess_secret as string) as JwtPayload
 
-const {userId,role}= decoded;
+const {userId,role}= payload;
 let result = null
-if (role === 'student') {
+if (role === 'admin') {
   result = await StudentModel.findOne({id:userId})
 }
 if (role === 'faculty') {
@@ -127,8 +127,15 @@ if (role === 'faculty') {
 return result
 }
 
+
+
+const changeStatus =async (id:string,payload:{status:string})=>{
+const result = await userModel.findByIdAndUpdate(id,payload,{new:true})
+return result
+}
 export const userService = {
   createStudentIntoDB,
   createFacultyIntoDb,
-  getMe
+  getMe,
+  changeStatus
 };

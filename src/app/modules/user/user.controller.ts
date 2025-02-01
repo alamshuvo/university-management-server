@@ -4,6 +4,7 @@ import sendResponse from '../../../utils/sendResponse';
 import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
 
+
 const createStudent = catchAsync(async (req, res) => {
   //send response
   const { password, student: studentData } = req.body;
@@ -31,15 +32,15 @@ const createFaculty = catchAsync(async (req, res) => {
 
 
 const getMe = catchAsync(async (req, res) => {
- const token = req.headers.authorization;
- if (!token) {
-  throw new AppError(StatusCodes.NOT_FOUND,"token not found")
- }
+//  const token = req.headers.authorization;
+//  if (!token) {
+//   throw new AppError(StatusCodes.NOT_FOUND,"token not found")
+//  }
 
 
 
 
-  const result = await userService.getMe(token);
+  const result = await userService.getMe(req.user);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     sucess: true,
@@ -47,8 +48,22 @@ const getMe = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+
+const changeStatus = catchAsync(async(req,res)=>{
+  const id = req.params.id;
+  const result = await userService.changeStatus(id,req.body);
+  console.log(result);
+  sendResponse(res,{
+    statusCode:StatusCodes.OK,
+    sucess:true,
+    message:"user status change sucessfully",
+    data:result
+  })
+})
 export const UserControllers = {
   createStudent,
   createFaculty,
-  getMe
+  getMe,
+  changeStatus
 };
