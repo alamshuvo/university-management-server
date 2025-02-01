@@ -6,11 +6,16 @@ import AppError from '../../errors/AppError';
 
 
 const createStudent = catchAsync(async (req, res) => {
+
+  //using multer for parsing file 
+  console.log(req.body);
   //send response
+  const file = req.file;
+
   const { password, student: studentData } = req.body;
 
   //will call service function to send this data
-  const result = await userService.createStudentIntoDB(password, studentData);
+  const result = await userService.createStudentIntoDB(file,password, studentData);
   sendResponse(res, {
     statusCode: StatusCodes.OK,
     sucess: true,
@@ -53,7 +58,6 @@ const getMe = catchAsync(async (req, res) => {
 const changeStatus = catchAsync(async(req,res)=>{
   const id = req.params.id;
   const result = await userService.changeStatus(id,req.body);
-  console.log(result);
   sendResponse(res,{
     statusCode:StatusCodes.OK,
     sucess:true,
